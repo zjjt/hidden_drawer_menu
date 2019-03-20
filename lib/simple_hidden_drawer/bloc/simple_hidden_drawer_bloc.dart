@@ -3,40 +3,38 @@ import 'package:flutter/widgets.dart';
 import 'package:hidden_drawer_menu/simple_hidden_drawer/streams/streams_simple_hidden_menu.dart';
 
 class SimpleHiddenDrawerBloc {
-
   /// builder containing the drawer settings
   final int _initPositionSelected;
-  final Widget Function(int position , SimpleHiddenDrawerBloc bloc) _screenSelectedBuilder;
+  final Widget Function(int position, SimpleHiddenDrawerBloc bloc)
+      _screenSelectedBuilder;
 
   StreamsSimpleHiddenMenu controllers = new StreamsSimpleHiddenMenu();
 
   bool _startDrag = false;
   bool _isFirstPositionSelected = true;
   int positionStected = 0;
+  bool shouldToggle = true;
 
-  SimpleHiddenDrawerBloc(this._initPositionSelected, this._screenSelectedBuilder) {
-
+  SimpleHiddenDrawerBloc(
+      this._initPositionSelected, this._screenSelectedBuilder) {
     controllers.getpositionSelected.listen((position) {
-
-      /*if(position != positionStected || _isFirstPositionSelected) {
-
+      if (position != positionStected || _isFirstPositionSelected) {
         positionStected = position;
         _setScreen(position);
-
-        if (!_startDrag && !_isFirstPositionSelected) {
-          toggle();
+        if (shouldToggle) {
+          if (!_startDrag && !_isFirstPositionSelected) {
+            toggle();
+          }
         }
-
-      }else{
+        shouldToggle=true;
+      } else {
         toggle();
-      }*/
+      }
 
       _isFirstPositionSelected = false;
-
     });
 
     controllers.setPositionSelected(_initPositionSelected);
-
   }
 
   dispose() {
@@ -47,25 +45,28 @@ class SimpleHiddenDrawerBloc {
     controllers.setActionToggle(null);
   }
 
-  void setSelectedMenuPosition(int position){
+  void setSelectedMenuPosition(int position) {
     controllers.setPositionSelected(position);
   }
 
-  int getPositionSelected(){
+  int getPositionSelected() {
     return positionStected;
   }
 
-  Stream getPositionSelectedListern(){
+  Stream getPositionSelectedListern() {
     return controllers.getpositionSelected;
   }
-  setScreenByIndex(int position){
+
+  setScreenByIndex(int position,bool openDrawer) {
+    shouldToggle=openDrawer;
     _setScreen(position);
+    controllers.setPositionSelected(position);
   }
+
   _setScreen(int position) {
-    Widget screen = _screenSelectedBuilder(position,this);
-    if(screen != null){
+    Widget screen = _screenSelectedBuilder(position, this);
+    if (screen != null) {
       controllers.setScreenSelected(screen);
     }
   }
-
 }

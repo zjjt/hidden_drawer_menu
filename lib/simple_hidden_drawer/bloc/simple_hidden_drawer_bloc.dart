@@ -18,7 +18,7 @@ class SimpleHiddenDrawerBloc {
 
     controllers.getpositionSelected.listen((position) {
 
-      if(position != positionStected || _isFirstPositionSelected) {
+      /*if(position != positionStected || _isFirstPositionSelected) {
 
         positionStected = position;
         _setScreen(position);
@@ -29,7 +29,7 @@ class SimpleHiddenDrawerBloc {
 
       }else{
         toggle();
-      }
+      }*/
 
       _isFirstPositionSelected = false;
 

@@ -58,7 +58,9 @@ class SimpleHiddenDrawerBloc {
   Stream getPositionSelectedListern(){
     return controllers.getpositionSelected;
   }
-
+  setScreenByIndex(int position){
+    _setScreen(position);
+  }
   _setScreen(int position) {
     Widget screen = _screenSelectedBuilder(position,this);
     if(screen != null){

@@ -56,6 +56,7 @@ class _HiddenMenuState extends State<HiddenMenu> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomPadding:false ,
       body: Container(
         decoration: BoxDecoration(
           image: widget.background,

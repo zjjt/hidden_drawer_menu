@@ -5,7 +5,6 @@ import 'package:hidden_drawer_menu/menu/item_hidden_menu.dart';
 import 'package:hidden_drawer_menu/simple_hidden_drawer/simple_hidden_drawer.dart';
 
 class HiddenDrawerMenu extends StatelessWidget {
-
   /// List item menu and respective screens
   final List<ScreenHiddenDrawer> screens;
 
@@ -53,35 +52,68 @@ class HiddenDrawerMenu extends StatelessWidget {
   /// enable and disable perspective
   final bool enablePerspective;
 
+  //Modified by zjjt
+  //enable stacked appbar
+  final bool transparentAppBar;
+
   final Curve curveAnimation;
 
-  HiddenDrawerMenu({
-    this.screens,
-    this.initPositionSelected = 0,
-    this.backgroundColorAppBar,
-    this.elevationAppBar = 4.0,
-    this.iconMenuAppBar = const Icon(Icons.menu),
-    this.backgroundMenu,
-    this.backgroundColorMenu,
-    this.backgroundColorContent = Colors.white,
-    this.whithAutoTittleName = true,
-    this.styleAutoTittleName,
-    this.actionsAppBar,
-    this.tittleAppBar,
-    this.enableShadowItensMenu = false,
-    this.curveAnimation = Curves.decelerate,
-    this.isDraggable = true,
-    this.enablePerspective = false
-  });
+  HiddenDrawerMenu(
+      {
+      this.transparentAppBar,
+      this.screens,
+      this.initPositionSelected = 0,
+      this.backgroundColorAppBar,
+      this.elevationAppBar = 4.0,
+      this.iconMenuAppBar = const Icon(Icons.menu),
+      this.backgroundMenu,
+      this.backgroundColorMenu,
+      this.backgroundColorContent = Colors.white,
+      this.whithAutoTittleName = true,
+      this.styleAutoTittleName,
+      this.actionsAppBar,
+      this.tittleAppBar,
+      this.enableShadowItensMenu = false,
+      this.curveAnimation = Curves.decelerate,
+      this.isDraggable = true,
+      this.enablePerspective = false});
 
   @override
   Widget build(BuildContext context) {
-
     return SimpleHiddenDrawer(
       isDraggable: isDraggable,
       curveAnimation: curveAnimation,
       menu: buildMenu(),
-      screenSelectedBuilder: (position,bloc){
+      screenSelectedBuilder: (position, bloc) {
+        if (transparentAppBar) {
+          return Scaffold(
+              resizeToAvoidBottomPadding: false, //modified by zjjt
+              backgroundColor: backgroundColorContent,
+              body: Stack(
+                children: <Widget>[
+                  screens[position].screen,
+                  new Positioned(
+                    //Place it at the top, and not use the entire screen
+                    top: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: AppBar(
+                      backgroundColor: backgroundColorAppBar,
+                      elevation: elevationAppBar,
+                      title: getTittleAppBar(position),
+                      leading: new IconButton(
+                          icon: iconMenuAppBar,
+                          onPressed: () {
+                            bloc.toggle();
+                          }),
+                      actions: actionsAppBar,
+                    ), //Shadow gone
+                  ),
+                ],
+              )
+              //modification of the body to allow for transparent app bar
+              );
+        }
         return Scaffold(
           backgroundColor: backgroundColorContent,
           appBar: AppBar(
@@ -95,19 +127,20 @@ class HiddenDrawerMenu extends StatelessWidget {
                 }),
             actions: actionsAppBar,
           ),
-          body: screens[position].screen,
+          body: screens[position]
+              .screen, //modification of the body to allow for transparent app bar
         );
       },
     );
-
   }
 
   getTittleAppBar(int position) {
     if (tittleAppBar == null) {
       return whithAutoTittleName
-          ? Text(screens[position].itemMenu.name,
-          style: styleAutoTittleName,
-      )
+          ? Text(
+              screens[position].itemMenu.name,
+              style: styleAutoTittleName,
+            )
           : Container();
     } else {
       return tittleAppBar;
@@ -115,7 +148,6 @@ class HiddenDrawerMenu extends StatelessWidget {
   }
 
   buildMenu() {
-
     List<ItemHiddenMenu> _itensMenu = new List();
 
     screens.forEach((item) {
@@ -130,5 +162,4 @@ class HiddenDrawerMenu extends StatelessWidget {
       enableShadowItensMenu: enableShadowItensMenu,
     );
   }
-
 }

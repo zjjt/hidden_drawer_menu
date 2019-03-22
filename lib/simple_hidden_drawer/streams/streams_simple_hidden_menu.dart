@@ -14,7 +14,7 @@ class StreamsSimpleHiddenMenu{
   Stream<Widget> get getScreenSelected => _screenSelectedController.stream;
 
   /// stream used to control animation
-  StreamController<void> _actionToggleController = StreamController();
+  StreamController<void> _actionToggleController = StreamController<void>.broadcast();//turning stream to broadcast ZJJT
   Function(void) get setActionToggle => _actionToggleController.sink.add;
   Stream get getActionToggle => _actionToggleController.stream;
 

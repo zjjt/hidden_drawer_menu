@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
       screens: itens,
       enablePerspective: true,
       backgroundColorMenu: Colors.cyan,
-      //    iconMenuAppBar: Icon(Icons.menu),
+      //    iconMenu: Icon(Icons.menu),
       //    backgroundContent: DecorationImage((image: ExactAssetImage('assets/bg_news.jpg'),fit: BoxFit.cover),
       //    whithAutoTittleName: true,
       //    styleAutoTittleName: TextStyle(color: Colors.red),

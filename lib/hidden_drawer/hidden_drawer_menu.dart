@@ -40,6 +40,9 @@ class HiddenDrawerMenu extends StatelessWidget {
   /// Decocator that allows us to add backgroud in the menu(img)
   final DecorationImage backgroundMenu;
 
+    /// Decocator that allows us to add foreground in the menu(img) zjjt
+  final DecorationImage foregroundMenu;
+
   /// that allows us to add backgroud in the menu(color)
   final Color backgroundColorMenu;
 
@@ -67,6 +70,7 @@ class HiddenDrawerMenu extends StatelessWidget {
       this.elevationAppBar = 4.0,
       this.iconMenuAppBar = const Icon(Icons.menu),
       this.backgroundMenu,
+      this.foregroundMenu,
       this.backgroundColorMenu,
       this.backgroundColorContent = Colors.white,
       this.whithAutoTittleName = true,
@@ -157,6 +161,7 @@ class HiddenDrawerMenu extends StatelessWidget {
     return HiddenMenu(
       itens: _itensMenu,
       background: backgroundMenu,
+      foreground: foregroundMenu,
       backgroundColorMenu: backgroundColorMenu,
       initPositionSelected: initPositionSelected,
       enableShadowItensMenu: enableShadowItensMenu,

@@ -105,11 +105,7 @@ class HiddenDrawerMenu extends StatelessWidget {
                       backgroundColor: backgroundColorAppBar,
                       elevation: elevationAppBar,
                       title: getTittleAppBar(position),
-                      leading: new IconButton(
-                          icon: iconMenuAppBar,
-                          onPressed: () {
-                            bloc.toggle();
-                          }),
+                      leading: iconMenuAppBar,
                       actions: actionsAppBar,
                     ), //Shadow gone
                   ),
@@ -124,11 +120,7 @@ class HiddenDrawerMenu extends StatelessWidget {
             backgroundColor: backgroundColorAppBar,
             elevation: elevationAppBar,
             title: getTittleAppBar(position),
-            leading: new IconButton(
-                icon: iconMenuAppBar,
-                onPressed: () {
-                  bloc.toggle();
-                }),
+            leading: iconMenuAppBar,
             actions: actionsAppBar,
           ),
           body: screens[position]

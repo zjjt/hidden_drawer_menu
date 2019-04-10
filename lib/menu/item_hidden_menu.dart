@@ -62,12 +62,6 @@ class _ItemHiddenMenuState extends State<ItemHiddenMenu>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    slideInCtrl.dispose();
-    fadeInCtrl.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,5 +119,12 @@ class _ItemHiddenMenuState extends State<ItemHiddenMenu>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    slideInCtrl.dispose();
+    fadeInCtrl.dispose();
+    super.dispose();
   }
 }

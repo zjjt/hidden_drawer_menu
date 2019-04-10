@@ -5,8 +5,8 @@ import 'package:hidden_drawer_menu/menu/item_hidden_menu.dart';
 import 'package:hidden_drawer_menu/simple_hidden_drawer/simple_hidden_drawer.dart';
 
 class HiddenDrawerMenu extends StatelessWidget {
-  /// List item menu and respective screens
-  final List<ScreenHiddenDrawer> screens;
+  /// List item menu and respective screens /ZJJT removed final keyword to allow for dynamic screens and menus
+   List<ScreenHiddenDrawer> screens;
 
   /// position initial item selected in menu( sart in 0)
   final int initPositionSelected;
@@ -89,6 +89,13 @@ class HiddenDrawerMenu extends StatelessWidget {
       curveAnimation: curveAnimation,
       menu: buildMenu(),
       screenSelectedBuilder: (position, bloc) {
+        debugPrint("demanded screen position is $position");
+        debugPrint("demanded screen name is ${screens[position].itemMenu.name}");
+        int i=0;
+        for(var s in screens){
+          debugPrint("demanded screen name is ${s.itemMenu.name} at index ${i}");
+          i++;
+        }
         if (transparentAppBar) {
           return Scaffold(
               resizeToAvoidBottomPadding: false, //modified by zjjt

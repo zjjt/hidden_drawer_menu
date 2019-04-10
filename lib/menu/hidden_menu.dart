@@ -41,7 +41,7 @@ class HiddenMenu extends StatefulWidget {
 }
 
 class _HiddenMenuState extends State<HiddenMenu>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   int _indexSelected;
   bool isconfiguredListern = false;
   //Adding an animation to the background image
@@ -73,6 +73,7 @@ class _HiddenMenuState extends State<HiddenMenu>
       confListern();
       isconfiguredListern = true;
     }
+    debugPrint('current range of elements in drawer menu is ${widget.itens.length}');
     //listening to the bloc opening the drawer to know when to animate
     _bloc = SimpleHiddenDrawerProvider.of(
         context); //getting thebloc instance here and listening to opening menu

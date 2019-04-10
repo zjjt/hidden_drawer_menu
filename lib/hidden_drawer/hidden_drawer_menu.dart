@@ -4,7 +4,7 @@ import 'package:hidden_drawer_menu/menu/hidden_menu.dart';
 import 'package:hidden_drawer_menu/menu/item_hidden_menu.dart';
 import 'package:hidden_drawer_menu/simple_hidden_drawer/simple_hidden_drawer.dart';
 
-class HiddenDrawerMenu extends StatelessWidget {
+class HiddenDrawerMenu extends StatefulWidget {
   /// List item menu and respective screens /ZJJT removed final keyword to allow for dynamic screens and menus
    List<ScreenHiddenDrawer> screens;
 
@@ -40,7 +40,7 @@ class HiddenDrawerMenu extends StatelessWidget {
   /// Decocator that allows us to add backgroud in the menu(img)
   final DecorationImage backgroundMenu;
 
-    /// Decocator that allows us to add foreground in the menu(img) zjjt
+  /// Decocator that allows us to add foreground in the menu(img) zjjt
   final DecorationImage foregroundMenu;
 
   /// that allows us to add backgroud in the menu(color)
@@ -62,8 +62,7 @@ class HiddenDrawerMenu extends StatelessWidget {
   final Curve curveAnimation;
 
   HiddenDrawerMenu(
-      {
-      this.transparentAppBar,
+      {this.transparentAppBar,
       this.screens,
       this.initPositionSelected = 0,
       this.backgroundColorAppBar,
@@ -81,25 +80,37 @@ class HiddenDrawerMenu extends StatelessWidget {
       this.curveAnimation = Curves.decelerate,
       this.isDraggable = true,
       this.enablePerspective = false});
-
   @override
+  _HiddenDrawerMenuState createState() => _HiddenDrawerMenuState();
+}
+
+class _HiddenDrawerMenuState extends State<HiddenDrawerMenu> {
+  List<ScreenHiddenDrawer> screens;
+   @override
   Widget build(BuildContext context) {
+    setState(() {
+     screens=widget.screens;
+    });
     return SimpleHiddenDrawer(
-      isDraggable: isDraggable,
-      curveAnimation: curveAnimation,
+      isDraggable: widget.isDraggable,
+      curveAnimation: widget.curveAnimation,
       menu: buildMenu(),
-      screenSelectedBuilder: (position, bloc) {
-        debugPrint("demanded screen position is $position");
-        debugPrint("demanded screen name is ${screens[position].itemMenu.name}");
-        int i=0;
-        for(var s in screens){
-          debugPrint("demanded screen name is ${s.itemMenu.name} at index ${i}");
+      screenSelectedBuilder:(position,bloc){
+        return buildDrawer(position, bloc);
+      } ,
+    );
+  }
+
+  buildDrawer(position, bloc) {
+        int i = 0;
+        screens.forEach((s) {
+          debugPrint("demanded screen name is ${s.itemMenu.name} at index $i");
           i++;
-        }
-        if (transparentAppBar) {
+        });
+        if (widget.transparentAppBar) {
           return Scaffold(
               resizeToAvoidBottomPadding: false, //modified by zjjt
-              backgroundColor: backgroundColorContent,
+              backgroundColor: widget.backgroundColorContent,
               body: Stack(
                 children: <Widget>[
                   screens[position].screen,
@@ -109,11 +120,11 @@ class HiddenDrawerMenu extends StatelessWidget {
                     left: 0.0,
                     right: 0.0,
                     child: AppBar(
-                      backgroundColor: backgroundColorAppBar,
-                      elevation: elevationAppBar,
+                      backgroundColor: widget.backgroundColorAppBar,
+                      elevation: widget.elevationAppBar,
                       title: getTittleAppBar(position),
-                      leading: iconMenuAppBar,
-                      actions: actionsAppBar,
+                      leading: widget.iconMenuAppBar,
+                      actions: widget.actionsAppBar,
                     ), //Shadow gone
                   ),
                 ],
@@ -122,31 +133,28 @@ class HiddenDrawerMenu extends StatelessWidget {
               );
         }
         return Scaffold(
-          backgroundColor: backgroundColorContent,
+          backgroundColor: widget.backgroundColorContent,
           appBar: AppBar(
-            backgroundColor: backgroundColorAppBar,
-            elevation: elevationAppBar,
+            backgroundColor: widget.backgroundColorAppBar,
+            elevation: widget.elevationAppBar,
             title: getTittleAppBar(position),
-            leading: iconMenuAppBar,
-            actions: actionsAppBar,
+            leading: widget.iconMenuAppBar,
+            actions: widget.actionsAppBar,
           ),
           body: screens[position]
               .screen, //modification of the body to allow for transparent app bar
         );
-      },
-    );
-  }
-
+      }
   getTittleAppBar(int position) {
-    if (tittleAppBar == null) {
-      return whithAutoTittleName
+    if (widget.tittleAppBar == null) {
+      return widget.whithAutoTittleName
           ? Text(
               screens[position].itemMenu.name,
-              style: styleAutoTittleName,
+              style: widget.styleAutoTittleName,
             )
           : Container();
     } else {
-      return tittleAppBar;
+      return widget.tittleAppBar;
     }
   }
 
@@ -154,16 +162,18 @@ class HiddenDrawerMenu extends StatelessWidget {
     List<ItemHiddenMenu> _itensMenu = new List();
 
     screens.forEach((item) {
+      debugPrint("demanded screen name is ${item.itemMenu.name}");
       _itensMenu.add(item.itemMenu);
     });
 
     return HiddenMenu(
       itens: _itensMenu,
-      background: backgroundMenu,
-      foreground: foregroundMenu,
-      backgroundColorMenu: backgroundColorMenu,
-      initPositionSelected: initPositionSelected,
-      enableShadowItensMenu: enableShadowItensMenu,
+      background: widget.backgroundMenu,
+      foreground: widget.foregroundMenu,
+      backgroundColorMenu: widget.backgroundColorMenu,
+      initPositionSelected: widget.initPositionSelected,
+      enableShadowItensMenu: widget.enableShadowItensMenu,
     );
   }
 }
+

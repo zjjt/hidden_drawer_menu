@@ -6,7 +6,7 @@ import 'package:hidden_drawer_menu/simple_hidden_drawer/simple_hidden_drawer.dar
 
 class HiddenDrawerMenu extends StatefulWidget {
   /// List item menu and respective screens /ZJJT removed final keyword to allow for dynamic screens and menus
-   List<ScreenHiddenDrawer> screens;
+  List<ScreenHiddenDrawer> screens;
 
   /// position initial item selected in menu( sart in 0)
   final int initPositionSelected;
@@ -58,11 +58,13 @@ class HiddenDrawerMenu extends StatefulWidget {
   //Modified by zjjt
   //enable stacked appbar
   final bool transparentAppBar;
+  final  bottomNavigationBar;
 
   final Curve curveAnimation;
 
   HiddenDrawerMenu(
       {this.transparentAppBar,
+      this.bottomNavigationBar,
       this.screens,
       this.initPositionSelected = 0,
       this.backgroundColorAppBar,
@@ -86,65 +88,68 @@ class HiddenDrawerMenu extends StatefulWidget {
 
 class _HiddenDrawerMenuState extends State<HiddenDrawerMenu> {
   List<ScreenHiddenDrawer> screens;
-   @override
+  @override
   Widget build(BuildContext context) {
     setState(() {
-     screens=widget.screens;
+      screens = widget.screens;
     });
     return SimpleHiddenDrawer(
       isDraggable: widget.isDraggable,
       curveAnimation: widget.curveAnimation,
       menu: buildMenu(),
-      screenSelectedBuilder:(position,bloc){
+      screenSelectedBuilder: (position, bloc) {
         return buildDrawer(position, bloc);
-      } ,
+      },
     );
   }
 
   buildDrawer(position, bloc) {
-        int i = 0;
-        screens.forEach((s) {
-          debugPrint("demanded screen name is ${s.itemMenu.name} at index $i");
-          i++;
-        });
-        if (widget.transparentAppBar) {
-          return Scaffold(
-              resizeToAvoidBottomPadding: false, //modified by zjjt
-              backgroundColor: widget.backgroundColorContent,
-              body: Stack(
-                children: <Widget>[
-                  screens[position].screen,
-                  new Positioned(
-                    //Place it at the top, and not use the entire screen
-                    top: 0.0,
-                    left: 0.0,
-                    right: 0.0,
-                    child: AppBar(
-                      backgroundColor: widget.backgroundColorAppBar,
-                      elevation: widget.elevationAppBar,
-                      title: getTittleAppBar(position),
-                      leading: widget.iconMenuAppBar,
-                      actions: widget.actionsAppBar,
-                    ), //Shadow gone
-                  ),
-                ],
-              )
-              //modification of the body to allow for transparent app bar
-              );
-        }
-        return Scaffold(
+    int i = 0;
+    screens.forEach((s) {
+      debugPrint("demanded screen name is ${s.itemMenu.name} at index $i");
+      i++;
+    });
+    if (widget.transparentAppBar) {
+      return Scaffold(
+          resizeToAvoidBottomPadding: false, //modified by zjjt
           backgroundColor: widget.backgroundColorContent,
-          appBar: AppBar(
-            backgroundColor: widget.backgroundColorAppBar,
-            elevation: widget.elevationAppBar,
-            title: getTittleAppBar(position),
-            leading: widget.iconMenuAppBar,
-            actions: widget.actionsAppBar,
+          body: Stack(
+            children: <Widget>[
+              screens[position].screen,
+              new Positioned(
+                //Place it at the top, and not use the entire screen
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: AppBar(
+                  backgroundColor: widget.backgroundColorAppBar,
+                  elevation: widget.elevationAppBar,
+                  title: getTittleAppBar(position),
+                  leading: widget.iconMenuAppBar,
+                  actions: widget.actionsAppBar,
+                ), //Shadow gone
+              ),
+            ],
           ),
-          body: screens[position]
-              .screen, //modification of the body to allow for transparent app bar
-        );
-      }
+          bottomNavigationBar: widget.bottomNavigationBar,
+          //modification of the body to allow for transparent app bar
+          );
+    }
+    return Scaffold(
+      backgroundColor: widget.backgroundColorContent,
+      appBar: AppBar(
+        backgroundColor: widget.backgroundColorAppBar,
+        elevation: widget.elevationAppBar,
+        title: getTittleAppBar(position),
+        leading: widget.iconMenuAppBar,
+        actions: widget.actionsAppBar,
+      ),
+      body: screens[position]
+          .screen,
+      bottomNavigationBar: widget.bottomNavigationBar, //modification of the body to allow for transparent app bar
+    );
+  }
+
   getTittleAppBar(int position) {
     if (widget.tittleAppBar == null) {
       return widget.whithAutoTittleName
@@ -161,7 +166,7 @@ class _HiddenDrawerMenuState extends State<HiddenDrawerMenu> {
   buildMenu() {
     List<ItemHiddenMenu> _itensMenu = new List();
 
-    screens.forEach((item) {
+    widget.screens.forEach((item) {
       debugPrint("demanded screen name is ${item.itemMenu.name}");
       _itensMenu.add(item.itemMenu);
     });
@@ -176,4 +181,3 @@ class _HiddenDrawerMenuState extends State<HiddenDrawerMenu> {
     );
   }
 }
-

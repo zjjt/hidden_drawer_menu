@@ -63,7 +63,7 @@ class _HiddenMenuState extends State<HiddenMenu>
   //disposing of the animations
   @override
   void dispose() {
-    //slideInCtrl.dispose();
+    slideInCtrl.dispose();
     super.dispose();
   }
 

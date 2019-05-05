@@ -123,8 +123,8 @@ class _ItemHiddenMenuState extends State<ItemHiddenMenu>
 
   @override
   void dispose() {
-    slideInCtrl.dispose();
-    fadeInCtrl.dispose();
+    //slideInCtrl.dispose();
+    //fadeInCtrl.dispose();
     super.dispose();
   }
 }

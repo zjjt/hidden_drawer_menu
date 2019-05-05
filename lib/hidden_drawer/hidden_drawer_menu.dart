@@ -136,6 +136,7 @@ class _HiddenDrawerMenuState extends State<HiddenDrawerMenu> {
           );
     }
     return Scaffold(
+      resizeToAvoidBottomPadding: false, //modified by zjjt
       backgroundColor: widget.backgroundColorContent,
       appBar: AppBar(
         backgroundColor: widget.backgroundColorAppBar,
